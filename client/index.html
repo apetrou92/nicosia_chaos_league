@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"
+    />
+    <meta name="theme-color" content="#151830" />
+    <title>Nicosia Chaos League</title>
+  </head>
+  <body>
+    <main id="app">
+      <section id="landing" class="landing">
+        <div class="landing-card">
+          <div id="landing-version-pill" class="landing-version-pill">Game v12.0</div>
+          <p class="eyebrow">Nicosia Chaos League · v12.0</p>
+          <h1>Nicosia Chaos League</h1>
+          <p class="subtitle">
+            Pick a character, enter the map, collect cursed items, and prepare for future duels.
+          </p>
+
+          <label class="field-label" for="nickname">Nickname</label>
+          <input
+            id="nickname"
+            class="nickname-input"
+            maxlength="14"
+            placeholder="e.g. Andreas"
+            autocomplete="off"
+          />
+
+          <p class="field-label">Choose your fighter</p>
+          <div id="character-grid" class="character-grid"></div>
+
+          <button id="start-button" class="start-button" disabled>
+            Enter Nicosia
+          </button>
+
+          <p class="hint">
+            Desktop: WASD / arrows. Mobile: use the joystick. Multiplayer comes next.
+          </p>
+        </div>
+      </section>
+
+      <section id="game-shell" class="game-shell hidden">
+        <div id="game-container"></div>
+
+        <div id="mobile-landscape-ui" class="mobile-landscape-ui" aria-hidden="true">
+          <div class="ml-topbar">
+            <div id="ml-hud" class="ml-hud">Score 0 | Items empty</div>
+            <div class="ml-actions">
+              <button id="ml-feed-btn" class="ml-button" type="button">FEED</button>
+              <button id="ml-rank-btn" class="ml-button" type="button">RANK</button>
+            </div>
+          </div>
+
+          <div id="ml-drawer" class="ml-drawer ml-feed-drawer hidden">
+            <div id="ml-drawer-title" class="ml-drawer-title"></div>
+            <div id="ml-drawer-content" class="ml-drawer-content"></div>
+          </div>
+
+          <div id="ml-rank-drawer" class="ml-drawer ml-rank-drawer hidden">
+            <div id="ml-rank-drawer-title" class="ml-drawer-title">RANK</div>
+            <div id="ml-rank-drawer-content" class="ml-drawer-content"></div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>

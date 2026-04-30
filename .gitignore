@@ -6,9 +6,10 @@ dist
 .env.*
 .DS_Store
 npm-debug.log*
+pnpm-debug.log*
 .vite
 .cache
 
-# Keep the production build in Git for Railway V12.3 deployment.
+# Keep the production build in Git for Railway V12.4 deployment.
 !client/dist
 !client/dist/**

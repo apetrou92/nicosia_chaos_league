@@ -1,53 +1,61 @@
 # Nicosia Chaos League — Public Deployment Guide
 
-Version: **v12.3**
+Version: **v12.4**
 
-This version uses a **prebuilt client deployment** to avoid Railway npm/Vite workspace build issues.
+This version uses a **prebuilt client** and **pnpm** to bypass Railway's npm install issue.
 
-Railway only installs the lightweight server dependencies and starts the Node server. The browser game is already built inside:
+Railway does not run Vite. The browser game is already built inside:
 
 ```txt
 client/dist
 ```
 
-## Railway variables for V12.3
+Railway only needs to install the server packages and run:
 
-Set these in Railway:
+```txt
+node server/src/index.js
+```
+
+## Railway variables for V12.4
+
+Use exactly these Railway variables:
 
 ```txt
 NIXPACKS_NODE_VERSION=20
-NIXPACKS_INSTALL_CMD=npm install --omit=dev --no-audit --no-fund
-NIXPACKS_BUILD_CMD=npm install --omit=dev --no-audit --no-fund
-NIXPACKS_START_CMD=npm start
+NIXPACKS_INSTALL_CMD=corepack enable && corepack prepare pnpm@9.15.4 --activate && pnpm install --prod --no-frozen-lockfile
+NIXPACKS_BUILD_CMD=echo "Client prebuilt; skipping build"
+NIXPACKS_START_CMD=node server/src/index.js
 ```
 
-Delete these if present:
+Delete these variables if present:
 
 ```txt
 NPM_CONFIG_PRODUCTION
 ```
 
-## Important Git note
+## Important
 
-Unlike previous versions, **client/dist must be pushed to GitHub**.
+`client/dist` must be committed and pushed to GitHub.
 
-The `.gitignore` in V12.3 has been updated to allow:
+Check before pushing:
+
+```bash
+git status
+```
+
+You should see files under:
 
 ```txt
 client/dist
 ```
 
-If Git does not include `client/dist`, Railway will start the server but the game page will not load.
-
-## Deploy steps
+## Push patch
 
 ```bash
 git add .
-git commit -m "Use prebuilt client for Railway deploy"
+git commit -m "Use pnpm prebuilt Railway deploy"
 git push
 ```
-
-Railway should redeploy automatically.
 
 ## Test
 
@@ -62,8 +70,6 @@ Expected:
 ```json
 {
   "ok": true,
-  "version": "12.3"
+  "version": "12.4"
 }
 ```
-
-Then open the normal URL.

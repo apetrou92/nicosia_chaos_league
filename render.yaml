@@ -3,8 +3,8 @@ services:
     name: nicosia-chaos-league
     env: node
     plan: free
-    buildCommand: npm install --omit=dev --no-audit --no-fund
-    startCommand: npm start
+    buildCommand: corepack enable && corepack prepare pnpm@9.15.4 --activate && pnpm install --prod --no-frozen-lockfile
+    startCommand: node server/src/index.js
     healthCheckPath: /health
     envVars:
       - key: NODE_VERSION

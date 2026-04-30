@@ -548,3 +548,13 @@ http://localhost:3000
   `npm install --omit=dev --no-audit --no-fund`
 - `.gitignore` now allows `client/dist` so the built game is uploaded.
 - This is intended to bypass Railway's repeated `vite: not found` / npm install issue.
+
+
+## Patch notes — v12.4
+
+- Changed Railway deploy strategy from npm to pnpm/corepack.
+- Added `nixpacks.toml` to force Railway to use pnpm install and skip Vite build.
+- Railway build now uses the already-built `client/dist` folder.
+- Start command is now direct: `node server/src/index.js`, avoiding npm at runtime.
+- Root `package.json` uses `packageManager: pnpm@9.15.4`.
+- Intended to bypass Railway's recurring npm error: `Exit handler never called`.

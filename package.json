@@ -1,16 +1,17 @@
 {
   "name": "nicosia-chaos-league",
-  "version": "12.3.0",
+  "version": "12.4.0",
   "private": true,
   "description": "Nicosia Chaos League - Phaser + Socket.IO multiplayer browser game.",
   "type": "module",
+  "packageManager": "pnpm@9.15.4",
   "engines": {
     "node": "20.x"
   },
   "scripts": {
     "start": "node server/src/index.js",
-    "dev": "node server/src/index.js",
-    "build": "echo \"Using prebuilt client/dist - no Railway build needed\""
+    "build": "echo \"Using prebuilt client/dist - no Railway build needed\"",
+    "deploy:install": "pnpm install --prod --no-frozen-lockfile"
   },
   "dependencies": {
     "express": "^4.21.2",

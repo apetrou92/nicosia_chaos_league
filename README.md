@@ -558,3 +558,13 @@ http://localhost:3000
 - Start command is now direct: `node server/src/index.js`, avoiding npm at runtime.
 - Root `package.json` uses `packageManager: pnpm@9.15.4`.
 - Intended to bypass Railway's recurring npm error: `Exit handler never called`.
+
+
+## Patch notes — v12.5
+
+- Added Dockerfile deployment to bypass Railway/Nixpacks npm install behavior.
+- Removed `nixpacks.toml` to avoid Nixpacks config conflict.
+- Dockerfile uses Node 20 and pnpm through corepack.
+- Dockerfile copies only server, shared, and prebuilt `client/dist`.
+- Railway should now deploy using the Dockerfile rather than Nixpacks.
+- `client/dist` remains required and must be committed to GitHub.

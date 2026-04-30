@@ -12,7 +12,7 @@ const __dirname = path.dirname(__filename);
 
 const PORT = process.env.PORT || 3000;
 const CLIENT_ORIGIN = process.env.CLIENT_ORIGIN || "*";
-const GAME_VERSION = "12.4";
+const GAME_VERSION = "12.5";
 
 const app = express();
 app.set("trust proxy", 1);

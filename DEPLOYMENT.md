@@ -1,60 +1,63 @@
-# Nicosia Chaos League — Public Deployment Guide
+# Nicosia Chaos League — Railway Dockerfile Deployment
 
-Version: **v12.4**
+Version: **v12.5**
 
-This version uses a **prebuilt client** and **pnpm** to bypass Railway's npm install issue.
+This version uses a **Dockerfile** to bypass Railway/Nixpacks npm install behavior.
 
-Railway does not run Vite. The browser game is already built inside:
-
-```txt
-client/dist
-```
-
-Railway only needs to install the server packages and run:
+Railway should detect the `Dockerfile` and build using Docker. The Dockerfile:
 
 ```txt
-node server/src/index.js
-```
-
-## Railway variables for V12.4
-
-Use exactly these Railway variables:
-
-```txt
-NIXPACKS_NODE_VERSION=20
-NIXPACKS_INSTALL_CMD=corepack enable && corepack prepare pnpm@9.15.4 --activate && pnpm install --prod --no-frozen-lockfile
-NIXPACKS_BUILD_CMD=echo "Client prebuilt; skipping build"
-NIXPACKS_START_CMD=node server/src/index.js
-```
-
-Delete these variables if present:
-
-```txt
-NPM_CONFIG_PRODUCTION
+1. Uses node:20-slim
+2. Enables pnpm through corepack
+3. Installs only server production dependencies
+4. Copies server, shared, and prebuilt client/dist
+5. Starts with: node server/src/index.js
 ```
 
 ## Important
 
-`client/dist` must be committed and pushed to GitHub.
+The folder `client/dist` must be committed to GitHub.
 
-Check before pushing:
+## Railway variables
 
-```bash
-git status
-```
-
-You should see files under:
+For V12.5, remove the previous Nixpacks variables if possible:
 
 ```txt
-client/dist
+NIXPACKS_INSTALL_CMD
+NIXPACKS_BUILD_CMD
+NIXPACKS_START_CMD
+NIXPACKS_NODE_VERSION
+NPM_CONFIG_PRODUCTION
 ```
 
-## Push patch
+They should not be needed when Railway uses the Dockerfile.
+
+If Railway still shows a Nixpacks table with `npm install`, it is not using the Dockerfile or the latest GitHub commit has not been deployed.
+
+## Push commands
 
 ```bash
 git add .
-git commit -m "Use pnpm prebuilt Railway deploy"
+git commit -m "Use Dockerfile Railway deploy"
 git push
+```
+
+## Expected logs
+
+You want to see Dockerfile-style steps like:
+
+```txt
+FROM node:20-slim
+RUN corepack enable
+pnpm install --prod
+CMD ["node", "server/src/index.js"]
+```
+
+You should **not** see:
+
+```txt
+Nixpacks v...
+npm install --omit=dev
 ```
 
 ## Test
@@ -70,6 +73,6 @@ Expected:
 ```json
 {
   "ok": true,
-  "version": "12.4"
+  "version": "12.5"
 }
 ```

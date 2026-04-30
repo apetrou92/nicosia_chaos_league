@@ -1,13 +1,9 @@
 services:
   - type: web
     name: nicosia-chaos-league
-    env: node
+    env: docker
     plan: free
-    buildCommand: corepack enable && corepack prepare pnpm@9.15.4 --activate && pnpm install --prod --no-frozen-lockfile
-    startCommand: node server/src/index.js
     healthCheckPath: /health
     envVars:
-      - key: NODE_VERSION
-        value: 20
       - key: CLIENT_ORIGIN
         value: "*"

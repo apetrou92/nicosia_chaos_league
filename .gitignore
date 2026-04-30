@@ -10,6 +10,6 @@ pnpm-debug.log*
 .vite
 .cache
 
-# Keep the production build in Git for Railway V12.4 deployment.
+# Keep the production build in Git for Railway Dockerfile deployment.
 !client/dist
 !client/dist/**

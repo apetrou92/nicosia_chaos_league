@@ -1,25 +1,26 @@
 {
   "name": "nicosia-chaos-league",
-  "version": "12.1.0",
+  "version": "12.2.0",
   "private": true,
-  "description": "Nicosia Chaos League - Phaser + Socket.IO multiplayer prototype.",
-  "workspaces": [
-    "client",
-    "server"
-  ],
-  "scripts": {
-    "dev": "concurrently -n SERVER,CLIENT -c blue,green \"npm --workspace server run dev\" \"npm --workspace client run dev\"",
-    "build": "npm --workspace client run build",
-    "start": "npm --workspace server run start",
-    "deploy:check": "npm install && npm run build && npm start",
-    "clean": "node -e \"require('fs').rmSync('client/dist',{recursive:true,force:true})\""
-  },
-  "devDependencies": {
-    "concurrently": "^9.1.2"
-  },
+  "description": "Nicosia Chaos League - Phaser + Socket.IO multiplayer browser game.",
   "type": "module",
   "engines": {
-    "node": ">=20.0.0",
-    "npm": ">=10.0.0"
+    "node": "20.x",
+    "npm": "10.x"
+  },
+  "scripts": {
+    "dev": "concurrently -n SERVER,CLIENT -c blue,green \"node server/src/index.js\" \"vite --config client/vite.config.js --host 0.0.0.0\"",
+    "build": "vite build --config client/vite.config.js",
+    "start": "node server/src/index.js",
+    "deploy:check": "npm install --no-audit --no-fund && npm run build && npm start",
+    "clean": "node -e \"import('node:fs').then(fs=>fs.rmSync('client/dist',{recursive:true,force:true}))\""
+  },
+  "dependencies": {
+    "concurrently": "^9.1.2",
+    "express": "^4.21.2",
+    "phaser": "^3.88.2",
+    "socket.io": "^4.8.1",
+    "socket.io-client": "^4.8.1",
+    "vite": "^5.4.11"
   }
 }

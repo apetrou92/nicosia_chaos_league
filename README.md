@@ -525,3 +525,14 @@ http://localhost:3000
   `npm install --include=dev --no-audit --no-fund && npm run build`
 - Added `.npmrc` with `production=false`, `audit=false`, and `fund=false`.
 - Updated `/version`, health version and landing page to `Game v12.1`.
+
+
+## Patch notes — v12.2
+
+- Fixed Railway `vite: not found` issue by removing npm workspaces from the production build path.
+- Root `package.json` now contains all dependencies needed to install, build and run the game.
+- `npm run build` now runs `vite build --config client/vite.config.js` directly from the root.
+- `client/vite.config.js` now explicitly sets the client root and dist output.
+- Updated `railway.json` build command to:
+  `npm install --no-audit --no-fund && npm run build`
+- Updated landing page, in-game text and `/version` to `Game v12.2`.

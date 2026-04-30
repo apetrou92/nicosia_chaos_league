@@ -8,7 +8,7 @@ import { getNpcById } from "@shared/npcs.js";
 import { FIGHTER_FACE_ASSETS } from "@shared/fighterFaces.js";
 import { NetworkClient } from "../network/NetworkClient.js";
 
-const GAME_VERSION = "12.0";
+const GAME_VERSION = "12.1";
 const UI_FONT = "Inter, Segoe UI, Arial, Helvetica, sans-serif";
 const MAKIS_TEXT_COLOR = "#ff2d2d";
 const ITEM_TEXT_COLOR = "#c084fc";
@@ -80,7 +80,7 @@ export class GameScene extends Phaser.Scene {
     this.createNetwork();
 
     this.addFeedMessage(`${this.profile.nickname} entered Nicosia as ${this.character.id}.`);
-    this.addFeedMessage("V12.0: deployment-ready public build.");
+    this.addFeedMessage("V12.1: Railway build fix.");
   }
 
   createTextures() {

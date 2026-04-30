@@ -515,3 +515,13 @@ Then open:
 ```txt
 http://localhost:3000
 ```
+
+
+## Patch notes — v12.1
+
+- Fixed Railway build issue where `vite` was not found.
+- Moved `vite` into `client/package.json` dependencies so build tools are available during Railway deployment.
+- Updated `railway.json` build command to:
+  `npm install --include=dev --no-audit --no-fund && npm run build`
+- Added `.npmrc` with `production=false`, `audit=false`, and `fund=false`.
+- Updated `/version`, health version and landing page to `Game v12.1`.

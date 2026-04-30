@@ -1,6 +1,6 @@
 # Nicosia Chaos League — Public Deployment Guide
 
-Version: **v12.0**
+Version: **v12.1**
 
 This version is deployment-ready: the Node.js server serves both the Phaser game client and Socket.IO multiplayer from the same public URL.
 
@@ -116,3 +116,24 @@ Procfile
 .gitignore
 DEPLOYMENT.md
 ```
+
+
+## Railway build fix — v12.1
+
+This patch fixes the Railway error:
+
+```txt
+vite: not found
+```
+
+What changed:
+
+```txt
+1. Vite moved from client devDependencies to client dependencies.
+2. railway.json now uses:
+   npm install --include=dev --no-audit --no-fund && npm run build
+3. .npmrc added with production=false.
+```
+
+After pushing this patch to GitHub, Railway should automatically redeploy.
+If not, manually redeploy the latest commit.

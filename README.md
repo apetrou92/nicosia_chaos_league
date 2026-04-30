@@ -536,3 +536,15 @@ http://localhost:3000
 - Updated `railway.json` build command to:
   `npm install --no-audit --no-fund && npm run build`
 - Updated landing page, in-game text and `/version` to `Game v12.2`.
+
+
+## Patch notes — v12.3
+
+- Changed Railway deployment strategy to use a prebuilt client.
+- Railway no longer runs Vite during deployment.
+- `client/dist` is included and must be pushed to GitHub.
+- Root `package.json` now includes only server runtime dependencies: `express` and `socket.io`.
+- `railway.json` now installs server dependencies only:
+  `npm install --omit=dev --no-audit --no-fund`
+- `.gitignore` now allows `client/dist` so the built game is uploaded.
+- This is intended to bypass Railway's repeated `vite: not found` / npm install issue.

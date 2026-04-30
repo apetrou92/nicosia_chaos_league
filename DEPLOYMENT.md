@@ -1,168 +1,69 @@
 # Nicosia Chaos League — Public Deployment Guide
 
-Version: **v12.2**
+Version: **v12.3**
 
-This version is deployment-ready: the Node.js server serves both the Phaser game client and Socket.IO multiplayer from the same public URL.
+This version uses a **prebuilt client deployment** to avoid Railway npm/Vite workspace build issues.
 
-## Local production test
+Railway only installs the lightweight server dependencies and starts the Node server. The browser game is already built inside:
 
-From the project root:
+```txt
+client/dist
+```
+
+## Railway variables for V12.3
+
+Set these in Railway:
+
+```txt
+NIXPACKS_NODE_VERSION=20
+NIXPACKS_INSTALL_CMD=npm install --omit=dev --no-audit --no-fund
+NIXPACKS_BUILD_CMD=npm install --omit=dev --no-audit --no-fund
+NIXPACKS_START_CMD=npm start
+```
+
+Delete these if present:
+
+```txt
+NPM_CONFIG_PRODUCTION
+```
+
+## Important Git note
+
+Unlike previous versions, **client/dist must be pushed to GitHub**.
+
+The `.gitignore` in V12.3 has been updated to allow:
+
+```txt
+client/dist
+```
+
+If Git does not include `client/dist`, Railway will start the server but the game page will not load.
+
+## Deploy steps
 
 ```bash
-npm install
-npm run build
-npm start
+git add .
+git commit -m "Use prebuilt client for Railway deploy"
+git push
 ```
 
-Then open:
+Railway should redeploy automatically.
 
-```txt
-http://localhost:3000
-```
-
-Health check:
-
-```txt
-http://localhost:3000/health
-```
-
-Version check:
-
-```txt
-http://localhost:3000/version
-```
-
-## Local development mode
-
-For normal development:
-
-```bash
-npm install
-npm run dev
-```
+## Test
 
 Open:
 
 ```txt
-http://localhost:5173
+https://your-railway-url/health
 ```
 
-In development, Vite runs the client on `5173` and the Socket.IO server runs on `3000`.
+Expected:
 
-## Deploy on Railway
-
-1. Create a GitHub repository.
-2. Push this project to GitHub.
-3. Go to Railway.
-4. Create a new project.
-5. Select **Deploy from GitHub repo**.
-6. Choose this repository.
-7. Railway will use `railway.json`.
-
-Build command:
-
-```bash
-npm install && npm run build
+```json
+{
+  "ok": true,
+  "version": "12.3"
+}
 ```
 
-Start command:
-
-```bash
-npm start
-```
-
-After deployment, Railway gives you a public URL. Share that link with your friends.
-
-## Deploy on Render
-
-This repo includes `render.yaml`.
-
-You can either use Blueprint deployment or create a Web Service manually with:
-
-Build command:
-
-```bash
-npm install && npm run build
-```
-
-Start command:
-
-```bash
-npm start
-```
-
-Health check path:
-
-```txt
-/health
-```
-
-## Important notes
-
-- The game has no login.
-- Anyone with the link can join.
-- Scores are stored in server memory only.
-- Scores reset when the server restarts.
-- If the host goes to sleep on a free tier, the first load may take time.
-- Multiplayer works best when the frontend and backend are served from the same URL, which this version does.
-
-## Files added for deployment
-
-```txt
-railway.json
-render.yaml
-Procfile
-.env.example
-.gitignore
-DEPLOYMENT.md
-```
-
-
-## Railway build fix — v12.1
-
-This patch fixes the Railway error:
-
-```txt
-vite: not found
-```
-
-What changed:
-
-```txt
-1. Vite moved from client devDependencies to client dependencies.
-2. railway.json now uses:
-   npm install --include=dev --no-audit --no-fund && npm run build
-3. .npmrc added with production=false.
-```
-
-After pushing this patch to GitHub, Railway should automatically redeploy.
-If not, manually redeploy the latest commit.
-
-
-## Railway build fix — v12.2
-
-This patch removes npm workspaces from the Railway build path.
-
-Why: Railway/Nixpacks was running npm in a production-like install mode and the workspace build could not find `vite`.
-
-What changed:
-
-```txt
-1. Root package.json now contains all runtime and build dependencies.
-2. Root scripts now run Vite directly:
-   npm run build = vite build --config client/vite.config.js
-3. railway.json now uses:
-   npm install --no-audit --no-fund && npm run build
-4. client/vite.config.js now has an explicit root and dist output.
-```
-
-Recommended Railway variables for this patch:
-
-```txt
-NIXPACKS_NODE_VERSION=20
-NIXPACKS_INSTALL_CMD=npm install --no-audit --no-fund
-NIXPACKS_BUILD_CMD=npm run build
-NIXPACKS_START_CMD=npm start
-```
-
-You can remove `NPM_CONFIG_PRODUCTION`; V12.2 does not need dev dependencies.
+Then open the normal URL.

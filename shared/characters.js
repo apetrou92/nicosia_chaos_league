@@ -64,7 +64,7 @@ export const CHARACTERS = [
   },
   {
     id: "H",
-    name: "Greek Lover",
+    name: "Kettui",
     color: 0xec407a,
     outline: 0x880e4f,
     description: "Menace when cornered.",
